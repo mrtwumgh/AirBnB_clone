@@ -28,13 +28,24 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(self.b.created_at, datetime.datetime)
         self.assertIsInstance(self.b.updated_at, datetime.datetime)
 
+        d = {
+                "id": "1234",
+                "created_at": "2023-04-08T06:09:39.000000",
+                "updated_at": "2023-04-08T06:09:39.000000"
+        }
+        self.c = BaseModel(**d)
+        self.assertIsInstance(self.c, BaseModel)
+        self.assertEqual(self.c.id, "1234")
+        dt = datetime.datetime(2023, 4, 8, 6, 9, 39)
+        self.assertEqual(self.c.created_at, dt)
+        self.assertEqual(self.c.updated_at, dt)
+
     def test_str(self):
         """
         Tests the __str__ method
         """
         s = "[BaseModel] ({}) {}".format(self.b.id, self.b.__dict__)
         self.assertEqual(str(self.b), s)
-
 
     def test_save(self):
         """
