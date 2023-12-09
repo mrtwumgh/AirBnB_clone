@@ -64,8 +64,8 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(d, dict)
         self.assertEqual(d["__class__"], "BaseModel")
         self.assertEqual(d["id"], self.b.id)
-        self.assertEqual(d["created_at"], str(self.b.created_at))
-        self.assertEqual(d["updated_at"], str(self.b.updated_at))
+        self.assertEqual(d["created_at"], self.b.created_at.isoformat())
+        self.assertEqual(d["updated_at"], self.b.updated_at.isoformat())
 
     def tearDown(self):
         """

@@ -3,6 +3,7 @@
 A module that defines a class BaseModel
 """
 from datetime import datetime
+from . import storage
 import uuid
 
 
@@ -26,6 +27,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            storage.new(self)
 
     def __str__(self):
         """
@@ -40,13 +42,15 @@ class BaseModel:
         with current datetime
         """
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         """
         returns a dictionary containing all keys/values of __dict__
         of the instance
         """
-        self.__dict__["__class__"] = __class__.__name__
-        self.__dict__["created_at"] = self.created_at.isoformat()
-        self.__dict__["updated_at"] = self.updated_at.isoformat()
-        return self.__dict__
+        dict_copy = self.__dict__.copy()
+        dict_copy["__class__"] = __class__.__name__
+        dict_copy["created_at"] = self.created_at.isoformat()
+        dict_copy["updated_at"] = self.updated_at.isoformat()
+        return dict_copy
