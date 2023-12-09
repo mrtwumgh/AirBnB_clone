@@ -31,7 +31,7 @@ class HBNBCommand(cmd.Cmd):
         """
         Prints the string representation of an instance
         """
-        args = arg.split(" ")
+        args = arg.split()
         if len(args) == 0:
             print("** class name missing **")
         elif args[0] not in self.classes:
@@ -44,13 +44,13 @@ class HBNBCommand(cmd.Cmd):
             if key not in storage_db:
                 print("** no instance found **")
             else:
-                print(storage_file[key])
+                print(storage_db[key])
 
     def do_destroy(self, arg):
         """
         Deletes an instance based on class name and id
         """
-        args = arg.split(" ")
+        args = arg.split()
         if len(args) == 0:
             print("** class name missing **")
         elif args[0] not in self.classes:
@@ -60,7 +60,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             storage_db = storage.all()
             key = args[0] + "." + args[1]
-            if key not in storage_file:
+            if key not in storage_db:
                 print("** no instance found **")
             else:
                 del storage_db[key]
@@ -75,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         else:
             storage_db = storage.all()
-            for key, value in storage_db:
+            for key, value in storage_db.items():
                 if len(args) > 0 and args[0] != key.split(".")[0]:
                     continue
                 print(str(value))
