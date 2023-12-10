@@ -4,6 +4,7 @@ console for the AirBnB project
 """
 import cmd
 from models.base_model import BaseModel
+from models.user import User
 from models import storage
 
 
@@ -12,7 +13,7 @@ class HBNBCommand(cmd.Cmd):
     class for the console
     """
     prompt = "(hbnb) "
-    classes = ["BaseModel"]
+    classes = ["BaseModel", "User"]
 
     def do_create(self, arg):
         """
@@ -23,7 +24,10 @@ class HBNBCommand(cmd.Cmd):
         elif arg not in self.classes:
             print("** class doesn't exit **")
         else:
-            new_obj = BaseModel()
+            if arg == "User":
+                new_obj = User()
+            else:
+                new_obj = BaseModel()
             new_obj.save()
             print(new_obj.id)
 

@@ -46,11 +46,15 @@ class FileStorage:
         """
         from datetime import datetime
         from models.base_model import BaseModel
+        from models.user import User
         t_f = "%Y-%m-%dT%H:%M:%S.%f"
         try:
             with open(self.__file_path, "r") as f:
                 dict_objects = json.load(f)
                 for key, value in dict_objects.items():
-                    self.__objects[key] = BaseModel(**value)
+                    if key.split(".")[0] == "User":
+                        self.__objects[key] = User(**value)
+                    else:
+                        self.__objects[key] = BaseModel(**value)
         except FileNotFoundError:
             pass
