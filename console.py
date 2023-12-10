@@ -138,6 +138,20 @@ class HBNBCommand(cmd.Cmd):
                     setattr(storage_db[key], attribute, value)
                     storage.save()
 
+    def do_count(self, arg):
+        """
+        Prints the number of instances of a class
+        """
+        if arg not in self.mods:
+            print("** class doesn't exist **")
+        else:
+            storage_db = storage.all()
+            count = 0
+            for key in storage_db.keys():
+                if arg == key.split(".")[0]:
+                    count += 1
+            print(count)
+
     def precmd(self, arg):
         """
         precmd method
@@ -149,6 +163,13 @@ class HBNBCommand(cmd.Cmd):
             if len(args) == 2:
                 if args[1] == "all()":
                     return "all " + args[0]
+        except Exception:
+            pass
+        try:
+            args = arg.split(".")
+            if len(args) == 2:
+                if args[1] == "count()":
+                    return "count " + args[0]
         except Exception:
             pass
         return arg
@@ -212,6 +233,13 @@ class HBNBCommand(cmd.Cmd):
         print("and id by add or updating attribute")
         print("(Save the change into the JSON file)")
         print("Ex. $ update BaseModel 1234-1234-1234 email 'airbnb@mail.com")
+
+    def help_count(self):
+        """
+        Prints out the help for count
+        """
+        print("Retrieves the number of instances of a class")
+        print("<class name>.count().")
 
     def do_EOF(self, arg):
         """
