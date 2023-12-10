@@ -174,9 +174,16 @@ class HBNBCommand(cmd.Cmd):
             pass
         try:
             args = arg.split(".")
-            if len(args) == 2:
+            if len(args) == 2 and args[1].startswith("show"):
                 id = args[1][6:-2]
                 return "show " + args[0] + " " + id
+        except Exception:
+            pass
+        try:
+            args = arg.split(".")
+            if len(args) == 2 and args[1].startswith("destroy"):
+                id = args[1][9:-2]
+                return "destroy " + args[0] + " " + id
         except Exception:
             pass
         return arg
