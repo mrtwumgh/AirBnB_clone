@@ -186,6 +186,15 @@ class HBNBCommand(cmd.Cmd):
                 return "destroy " + args[0] + " " + id
         except Exception:
             pass
+        try:
+            args = arg.split(".")
+            if len(args) == 2 and args[1].startswith("update"):
+                n_g = args[1][7:-1].split(", ")
+                if len(n_g) == 3:
+                    r = n_g[0][1:-1] + " " + n_g[1][1:-1] + " " + n_g[2][1:-1]
+                    return "update " + args[0] + " " + r
+        except Exception:
+            pass
         return arg
 
     def emptyline(self):
