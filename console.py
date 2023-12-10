@@ -3,8 +3,15 @@
 console for the AirBnB project
 """
 import cmd
+import os
+import sys
 from models.base_model import BaseModel
 from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 from models import storage
 
 
@@ -13,7 +20,7 @@ class HBNBCommand(cmd.Cmd):
     class for the console
     """
     prompt = "(hbnb) "
-    classes = ["BaseModel", "User", "State", "City", "Amenity", "Place", "Review"]
+    mods = ["BaseModel", "User", "State", "City", "Amenity", "Place", "Review"]
 
     def do_create(self, arg):
         """
@@ -21,7 +28,7 @@ class HBNBCommand(cmd.Cmd):
         """
         if not arg:
             print("** class name missing **")
-        elif arg not in self.classes:
+        elif arg not in self.mods:
             print("** class doesn't exit **")
         else:
             if arg == "User":
@@ -48,7 +55,7 @@ class HBNBCommand(cmd.Cmd):
         args = arg.split()
         if len(args) == 0:
             print("** class name missing **")
-        elif args[0] not in self.classes:
+        elif args[0] not in self.mods:
             print("** class doesn't exist **")
         elif len(args) == 1:
             print("** instance id missing **")
@@ -67,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
         args = arg.split()
         if len(args) == 0:
             print("** class name missing **")
-        elif args[0] not in self.classes:
+        elif args[0] not in self.mods:
             print("** class doesn't exist **")
         elif len(args) == 1:
             print("** instance id missing **")
@@ -85,7 +92,7 @@ class HBNBCommand(cmd.Cmd):
         Prints all string representation of all instances
         """
         args = arg.split()
-        if len(args) > 0 and args[0] not in self.classes:
+        if len(args) > 0 and args[0] not in self.mods:
             print("** class doesn't exist **")
         else:
             storage_db = storage.all()
@@ -101,7 +108,7 @@ class HBNBCommand(cmd.Cmd):
         args = arg.split()
         if len(args) == 0:
             print("** class name missing **")
-        elif args[0] not in self.classes:
+        elif args[0] not in self.mods:
             print("** class doesn't exist **")
         elif len(args) == 1:
             print("** instance id missing **")
@@ -130,6 +137,14 @@ class HBNBCommand(cmd.Cmd):
                             value = str(value)
                     setattr(storage_db[key], attribute, value)
                     storage.save()
+
+    def precmd(self, arg):
+        """
+        precmd method
+        """
+        if not os.isatty(sys.stdin.fileno()):
+            print()
+        return arg
 
     def emptyline(self):
         """
