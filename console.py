@@ -91,7 +91,7 @@ class HBNBCommand(cmd.Cmd):
         """
         Prints all string representation of all instances
         """
-        args = arg.split()
+        args = arg.split(".")
         if len(args) > 0 and args[0] not in self.mods:
             print("** class doesn't exist **")
         else:
@@ -144,6 +144,13 @@ class HBNBCommand(cmd.Cmd):
         """
         if not os.isatty(sys.stdin.fileno()):
             print()
+        try:
+            args = arg.split(".")
+            if len(args) == 2:
+                if args[1] == "all()":
+                    return "all " + args[0]
+        except Exception:
+            pass
         return arg
 
     def emptyline(self):
