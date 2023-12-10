@@ -13,7 +13,7 @@ class HBNBCommand(cmd.Cmd):
     class for the console
     """
     prompt = "(hbnb) "
-    classes = ["BaseModel", "User"]
+    classes = ["BaseModel", "User", "State", "City", "Amenity", "Place", "Review"]
 
     def do_create(self, arg):
         """
@@ -26,6 +26,16 @@ class HBNBCommand(cmd.Cmd):
         else:
             if arg == "User":
                 new_obj = User()
+            elif arg == "State":
+                new_obj = State()
+            elif arg == "City":
+                new_obj = City()
+            elif arg == "Amenity":
+                new_obj = Amenity()
+            elif arg == "Place":
+                new_obj = Place()
+            elif arg == "Review":
+                new_obj = Review()
             else:
                 new_obj = BaseModel()
             new_obj.save()

@@ -48,6 +48,11 @@ class FileStorage:
         from datetime import datetime
         from models.base_model import BaseModel
         from models.user import User
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.place import Place
+        from models.review import Review
         t_f = "%Y-%m-%dT%H:%M:%S.%f"
         try:
             with open(self.__file_path, "r") as f:
@@ -55,6 +60,16 @@ class FileStorage:
                 for key, value in dict_objects.items():
                     if key.split(".")[0] == "User":
                         self.__objects[key] = User(**value)
+                    elif key.split(".")[0] == "State":
+                        self.__objects[key] = State(**value)
+                    elif key.split(".")[0] == "City":
+                        self.__objects[key] = City(**value)
+                    elif key.split(".")[0] == "Amenity":
+                        self.__objects[key] = Amenity(**value)
+                    elif key.split(".")[0] == "Place":
+                        self.__objects[key] = Place(**value)
+                    elif key.split(".")[0] == "Review":
+                        self.__objects[key] = Review(**value)
                     else:
                         self.__objects[key] = BaseModel(**value)
         except FileNotFoundError:
