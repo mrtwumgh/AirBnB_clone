@@ -117,6 +117,7 @@ class HBNBCommand(cmd.Cmd):
         elif len(args) == 3:
             print("** value missing **")
         else:
+            atts = ['id', 'created_at', 'updated_at']
             storage_db = storage.all()
             key = args[0] + "." + args[1]
             if key not in storage_db:
@@ -124,7 +125,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 attribute = args[2]
                 value = args[3]
-                if attribute not in ['id', 'created_at', 'updated_at']:
+                if attribute not in atts:
                     if '.' in value:
                         try:
                             value = float(value)
@@ -137,6 +138,16 @@ class HBNBCommand(cmd.Cmd):
                             value = str(value)
                     setattr(storage_db[key], attribute, value)
                     storage.save()
+                elif len(args) == 4:
+                    try:
+                        dicts = eval(args[3])
+                        if isinstance(dicts, dict):
+                            for k, v in dicts.items():
+                                if k not in atts:
+                                    setattr(storage_db[key], k, v)
+                            storage.save()
+                    except Exception:
+                        pass
 
     def do_count(self, arg):
         """
@@ -192,6 +203,10 @@ class HBNBCommand(cmd.Cmd):
                 n_g = args[1][7:-1].split(", ")
                 if len(n_g) == 3:
                     r = n_g[0][1:-1] + " " + n_g[1][1:-1] + " " + n_g[2][1:-1]
+                    return "update " + args[0] + " " + r
+                elif len(n_g) == 2:
+                    dict_repr = n_g[1][1:-1]
+                    r = n_g[0][1:-1] + " " + dict_repr
                     return "update " + args[0] + " " + r
         except Exception:
             pass
