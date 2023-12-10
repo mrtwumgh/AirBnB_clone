@@ -172,6 +172,13 @@ class HBNBCommand(cmd.Cmd):
                     return "count " + args[0]
         except Exception:
             pass
+        try:
+            args = arg.split(".")
+            if len(args) == 2:
+                id = args[1][6:-2]
+                return "show " + args[0] + " " + id
+        except Exception:
+            pass
         return arg
 
     def emptyline(self):
